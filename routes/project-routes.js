@@ -1,7 +1,5 @@
-const { response } = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
-const { route } = require('.');
 const router  = express.Router();
 
 const Project = require('../models/project-model');
