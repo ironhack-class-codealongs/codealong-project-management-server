@@ -8,7 +8,7 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const cors         = require('cors');
 
 // WHEN INTRODUCING USERS DO THIS:
 // INSTALL THESE DEPENDENCIES: passport-local, passport, bcryptjs, express-session
@@ -41,6 +41,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// CORS
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000']
+  })
+);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
