@@ -64,14 +64,14 @@ app.use(passport.session());
 app.locals.title = 'Express - Generated with IronGenerator';
 
 
-// ADD CORS SETTINGS HERE TO ALLOW CROSS-ORIGIN INTERACTION:
-
-
 
 // ROUTES MIDDLEWARE STARTS HERE:
 
 const index = require('./routes/index');
 app.use('/', index);
+
+const authRoutes = require('./routes/auth-routes');
+app.use('/api', authRoutes);
 
 const projects = require('./routes/project-routes');
 app.use('/api', projects);
