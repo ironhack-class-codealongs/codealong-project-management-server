@@ -7,7 +7,11 @@ const projectSchema = new Schema({
     tasks: [ {
         type: Schema.Types.ObjectId,
         ref: 'Task'
-    }]
+    }],
+    owner: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+    }
 });
 
 const Project = mongoose.model('Project', projectSchema);
