@@ -24,6 +24,7 @@ router.post("/projects", (req, res, next) => {
     Project.create({
         title: req.body.title,
         description: req.body.description,
+        imageUrl: req.body.imageUrl,
         tasks: [],
         owner: req.user._id
     })
