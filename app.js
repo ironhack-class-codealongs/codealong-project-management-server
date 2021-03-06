@@ -28,37 +28,44 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
+// config for heroku 
+// (see: https://stackoverflow.com/questions/64958647/express-not-sending-cross-domain-cookies)
+app.set("trust proxy", 1);
+
+// Session settings 
+// (see: https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+      secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+    }
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Middleware Setup
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// CORS
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+
+// Cors
 app.use(
   cors({
     credentials: true,
     origin: [process.env.CORS_ALLOWED]
   })
 );
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-
-// SESSION SETTINGS:
-app.use(session({
-  secret:"ironducks jumping through the mountains",
-  resave: true,
-  saveUninitialized: true
-}));
-
-
-// USE passport.initialize() and passport.session():
-app.use(passport.initialize());
-app.use(passport.session());
-
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
