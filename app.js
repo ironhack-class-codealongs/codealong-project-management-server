@@ -28,9 +28,9 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 
 const app = express();
 
-// // config for heroku 
-// // (see: https://stackoverflow.com/questions/64958647/express-not-sending-cross-domain-cookies)
-// app.set("trust proxy", 1);
+// config for heroku 
+// (see: https://stackoverflow.com/questions/64958647/express-not-sending-cross-domain-cookies)
+app.set("trust proxy", 1);
 
 // Session settings 
 // (see: https://hacks.mozilla.org/2020/08/changes-to-samesite-cookie-behavior/)
